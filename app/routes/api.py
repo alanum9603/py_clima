@@ -11,7 +11,7 @@ api_scope = Blueprint('api', __name__)
 def get_climate():
     lat = request.args.get('lat')
     lon = request.args.get('lon')
-    url = f'https://api.openweathermap.org/data/3.0/onecall?lat={lat}&lon={lon}&exclude=hourly,minutely&appid={API_Key}'
+    url = f'https://api.openweathermap.org/data/3.0/onecall?lat={lat}&lon={lon}&exclude=hourly,minutely&units=metric&appid={API_Key}'
     res = requests.get(url) 
     data = res.json()
     return data
