@@ -51,31 +51,31 @@ function show_climate(data, info){
     console.log(data);
     let climate_daily = ``;
     let climate_opt = ``;
-    let dates = data['daily']['dates'];
-    let morning = data['daily']['morning'];
-    let day = data['daily']['day'];
-    let evening = data['daily']['evening'];
-    let night = data['daily']['night']; 
+    let dates = data['dates'];
+    let morning = data['morning'];
+    let day = data['day'];
+    let evening = data['evening'];
+    let night = data['night']; 
     if (Object.keys(data).length != 0){
         climate_daily += `
             <div class="row align-items-start">
-                <h1>` + data["current"]["temp"] + `°C </h1>
+                <h1>` + data["temp"] + `°C </h1>
                 <p>
                     ` + info + `<br>
-                    Presión atmosférica: ` + data["current"]["pressure"] + `hPa <br>
-                    Humedad: ` + data["current"]["humidity"] + `% <br>
-                    Nubosidad: ` + data["current"]["clouds"] + `% <br>
-                    Índice UV: ` + data["current"]["uvi"] + ` <br>
-                    Visibilidad: ` + data["current"]["visibility"]/1000 + `km <br>
+                    Presión atmosférica: ` + data["pressure"] + `hPa <br>
+                    Humedad: ` + data["humidity"] + `% <br>
+                    Nubosidad: ` + data["clouds"] + `% <br>
+                    Índice UV: ` + data["uvi"] + ` <br>
+                    Visibilidad: ` + data["visibility"] + `km <br>
                 </p>
             </div>
             `;
         climate_opt += `
             <div class="btn-group d-flex justify-content-center" role="group" aria-label="Basic example">
-                <button type="button" class="btn btn-info">Mañana</button>
-                <button type="button" class="btn btn-primary">Día</button>
-                <button type="button" class="btn btn-success">Tarde</button>
-                <button type="button" class="btn btn-dark">Noche</button>
+                <button type="button" class="btn btn-info" onclick="graph_climate("` + data['dates'] + `","` + data['morning'] + `")" >Mañana</button>
+                <button type="button" class="btn btn-primary" onclick="graph_climate("` + data['dates'] + `","` + data['day'] + `") >Día</button>
+                <button type="button" class="btn btn-success" onclick="graph_climate("` + data['dates'] + `","` + data['evening'] + `") >Tarde</button>
+                <button type="button" class="btn btn-dark" onclick="graph_climate("` + data['dates'] + `","` + data['night'] + `") >Noche</button>
             </div>
             <canvas id="climate-chart"></canvas>
             `;
@@ -85,7 +85,7 @@ function show_climate(data, info){
     };
     CLIMATE_RESULTS.innerHTML = climate_daily;
     CLIMATE_OPT.innerHTML = climate_opt;
-    graph_climate(dates, morning);
+    graph_climate(data['dates'], data['morning']);
 };
 
 function graph_climate(dates, temps){
@@ -119,7 +119,3 @@ function graph_climate(dates, temps){
         }
     })
 }; 
-
-    
-
-    
