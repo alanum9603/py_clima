@@ -28,7 +28,7 @@ def get_climate():
     }
     res['daily'] = {
         'dates' :   [(date_start + timedelta(days=d)).strftime("%Y-%m-%d")
-                    for d in range((date_end - date_start).days + 1)],
+                        for d in range((date_end - date_start).days + 1)],
         'morning' : [data['daily'][i]['temp']['morn'] for i in range(0, n)],
         'day' :     [data['daily'][i]['temp']['day'] for i in range(0, n)],
         'evening' : [data['daily'][i]['temp']['eve'] for i in range(0, n)],
