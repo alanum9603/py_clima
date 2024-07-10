@@ -31,9 +31,9 @@ function show_cities(data) {
         for(let i = 0; i < Object.keys(data).length; i++) {
         city_list += `
         <div class="list-group-item">
-            <div class="row justify-content-between">
-                <div class="col-8">` + data[i].name + `, ` + data[i].state + ` - ` + data[i].country + `</div>
-                <div class="col-2">
+            <div class="d-flex">
+                <div class="p-2 flex-grow-1">` + data[i].name + `, ` + data[i].state + ` - ` + data[i].country + `</div>
+                <div class="p-2">
                     <button onclick="get_climate(lat=` + data[i].lat + `,lon=` + data[i].lon + `,info='` + data[i].name + `, ` + data[i].state + ` - ` + data[i].country + `')">>></button>
                 </div>
             </div>
@@ -71,7 +71,7 @@ function show_climate(data, info){
             </div>
             `;
         climate_opt += `
-            <div class="btn-group" role="group" aria-label="Basic example">
+            <div class="btn-group d-flex justify-content-center" role="group" aria-label="Basic example">
                 <button type="button" class="btn btn-info">Mañana</button>
                 <button type="button" class="btn btn-primary">Día</button>
                 <button type="button" class="btn btn-success">Tarde</button>
@@ -92,23 +92,30 @@ function graph_climate(dates, temps){
     console.log(dates);
     console.log(temps)
     let climate_chart = new Chart(CLIMATE_CHART, {
-        type: 'bar',
+        type: 'line',
         data: {
             labels: dates,
             datasets: [{
                 label: 'Temperatura',
                 data: temps,
-                backgroundColor: ['rgba(255, 99, 132, 0.2)'],
-                borderColor: ['rgba(255, 99, 132, 1)'],
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(255, 159, 64, 0.2)',
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)',
+                ],
                 borderWith: 1.5
             }],
-        },
-        options: {
-            scales: {
-                y: {
-                    beginAtZero: true
-                }
-            }
         }
     })
 }; 
