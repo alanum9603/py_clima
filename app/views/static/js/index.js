@@ -5,6 +5,23 @@ const CLIMATE_OPT = document.getElementById('climate-opt');
 const CLIMATE_CHART = document.getElementById('climate-chart').getContext('2d');
 const CITY_URL = 'api/location?location=';
 const CLIMATE_URL = 'api/climate';
+const BACKGROUNDCOLOR = [
+        'rgba(255, 99, 132, 0.2)',
+        'rgba(54, 162, 235, 0.2)',
+        'rgba(255, 206, 86, 0.2)',
+        'rgba(75, 192, 192, 0.2)',
+        'rgba(153, 102, 255, 0.2)',
+        'rgba(255, 159, 64, 0.2)',
+    ];
+const BORDERCOLOR = [
+        'rgba(255, 99, 132, 1)',
+        'rgba(54, 162, 235, 1)',
+        'rgba(255, 206, 86, 1)',
+        'rgba(75, 192, 192, 1)',
+        'rgba(153, 102, 255, 1)',
+        'rgba(255, 159, 64, 1)',
+    ];
+let climate_chart
 
 CITY_QUERY.addEventListener('submit', (event)=>{
     event.preventDefault();
@@ -50,69 +67,66 @@ function show_climate(data, info){
     console.log(data);
     let climate_daily = ``;
     let climate_opt = ``;
-    let dates = data['dates'];
+    let dates = data['dates'].join(`','`)
     let morning = data['morning'];
     let day = data['day'];
     let evening = data['evening'];
     let night = data['night']; 
     if (Object.keys(data).length != 0){
+        
         climate_daily += `
             <div class="row align-items-start">
                 <h1>` + data["temp"] + `°C </h1>
                 <p>
                     ` + info + `<br>
                     Presión atmosférica: ` + data["pressure"] + `hPa <br>
-                    Humedad: ` + data["humidity"] + `% <br>
-                    Nubosidad: ` + data["clouds"] + `% <br>
-                    Índice UV: ` + data["uvi"] + ` <br>
-                    Visibilidad: ` + data["visibility"] + `km <br>
+                    Humedad: `      + data["humidity"] + `%     <br>
+                    Nubosidad: `    + data["clouds"] + `%       <br>
+                    Índice UV: `    + data["uvi"] + `           <br>
+                    Visibilidad: `  + data["visibility"] + `km  <br>
                 </p>
             </div>
             `;
         climate_opt += `
             <div class="btn-group d-flex justify-content-center" role="group" aria-label="Basic example">
-                <button type="button" class="btn btn-info" onclick="graph_climate("` + data['dates'] + `","` + data['morning'] + `")" >Mañana</button>
-                <button type="button" class="btn btn-primary" onclick="graph_climate("` + data['dates'] + `","` + data['day'] + `") >Día</button>
-                <button type="button" class="btn btn-success" onclick="graph_climate("` + data['dates'] + `","` + data['evening'] + `") >Tarde</button>
-                <button type="button" class="btn btn-dark" onclick="graph_climate("` + data['dates'] + `","` + data['night'] + `") >Noche</button>
+                <button type="button" class="btn btn-info" onclick="graph_climate(['`   + dates + `'],[` + morning   + `])" >Mañana</button>
+                <button type="button" class="btn btn-primary" onclick="graph_climate(['`+ dates + `'],[` + day       + `])" >Día</button>
+                <button type="button" class="btn btn-success" onclick="graph_climate(['`+ dates + `'],[` + evening   + `])" >Tarde</button>
+                <button type="button" class="btn btn-dark" onclick="graph_climate(['`   + dates + `'],[` + night     + `])" >Noche</button>
             </div>
             <canvas id="climate-chart"></canvas>
             `;
     } else {
         climate_daily += '<label>No results found</label>';
-
     };
     CLIMATE_RESULTS.innerHTML = climate_daily;
     CLIMATE_OPT.innerHTML = climate_opt;
-    graph_climate(data['dates'], data['morning']);
+    climate_chart = new Chart(CLIMATE_CHART, {
+        type: 'line',
+        data: {
+            labels: data['dates'],
+            datasets: [{
+                label: 'Temperatura',
+                data: morning,
+                backgroundColor: BACKGROUNDCOLOR,
+                borderColor: BORDERCOLOR,
+                borderWith: 1.5
+            }],
+        }
+    })
 };
 
 function graph_climate(dates, temps){
-    console.log(dates);
-    console.log(temps)
-    let climate_chart = new Chart(CLIMATE_CHART, {
+    climate_chart.destroy();
+    climate_chart = new Chart(CLIMATE_CHART, {
         type: 'line',
         data: {
             labels: dates,
             datasets: [{
                 label: 'Temperatura',
                 data: temps,
-                backgroundColor: [
-                    'rgba(255, 99, 132, 0.2)',
-                    'rgba(54, 162, 235, 0.2)',
-                    'rgba(255, 206, 86, 0.2)',
-                    'rgba(75, 192, 192, 0.2)',
-                    'rgba(153, 102, 255, 0.2)',
-                    'rgba(255, 159, 64, 0.2)',
-                ],
-                borderColor: [
-                    'rgba(255, 99, 132, 1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(255, 206, 86, 1)',
-                    'rgba(75, 192, 192, 1)',
-                    'rgba(153, 102, 255, 1)',
-                    'rgba(255, 159, 64, 1)',
-                ],
+                backgroundColor: BACKGROUNDCOLOR,
+                borderColor: BORDERCOLOR,
                 borderWith: 1.5
             }],
         }
