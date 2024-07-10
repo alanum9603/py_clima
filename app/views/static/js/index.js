@@ -43,7 +43,6 @@ function show_cities(data) {
     } else {
         city_list += '<label class="list-group-item">Sin resultados encontrados</label>'
     }
-    
     CITY_LIST.innerHTML = city_list;
 };
 
