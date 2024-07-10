@@ -12,7 +12,7 @@ def list_location(query: Location) -> List[Location] :
     req = requests.get(url) 
     data = req.json()
     locations = []
-    for i in range(5) :
+    for i in range(0,5) :
         location = Location(
             lat=data[i]['lat'], 
             lon=data[i]['lon'], 
