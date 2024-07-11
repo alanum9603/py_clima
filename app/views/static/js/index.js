@@ -21,7 +21,7 @@ const BORDERCOLOR = [
         'rgba(153, 102, 255, 1)',
         'rgba(255, 159, 64, 1)',
     ];
-let climate_chart
+let climate_chart = new Chart();
 
 CITY_QUERY.addEventListener('submit', (event)=>{
     event.preventDefault();
@@ -33,7 +33,6 @@ CITY_QUERY.addEventListener('submit', (event)=>{
 })
     
 function get_climate(lat, lon, info){
-    console.log(CLIMATE_URL + '?lat=' + lat + '&lon=' + lon)
     fetch(CLIMATE_URL + '?lat=' + lat + '&lon=' + lon)  
         .then(response => response.json())
         .then(data => show_climate(data, info))
@@ -41,7 +40,6 @@ function get_climate(lat, lon, info){
 };
 
 function show_cities(data) {
-    console.log(data)
     let city_list = "";
     let climate_graph = ``;
     if (data.length != 0){
@@ -51,7 +49,7 @@ function show_cities(data) {
             <div class="d-flex">
                 <div class="p-2 flex-grow-1">` + data[i].name + `, ` + data[i].state + ` - ` + data[i].country + `</div>
                 <div class="p-2">
-                    <button onclick="get_climate(lat=` + data[i].lat + `,lon=` + data[i].lon + `,info='` + data[i].name + `, ` + data[i].state + ` - ` + data[i].country + `')">>></button>
+                    <button class="btn btn-outline-warning" onclick="get_climate(lat=` + data[i].lat + `,lon=` + data[i].lon + `,info='` + data[i].name + `, ` + data[i].state + ` - ` + data[i].country + `')">>></button>
                 </div>
             </div>
         </div>
@@ -64,7 +62,6 @@ function show_cities(data) {
 };
 
 function show_climate(data, info){
-    console.log(data);
     let climate_daily = ``;
     let climate_opt = ``;
     let dates = data['dates'].join(`','`)
@@ -101,19 +98,7 @@ function show_climate(data, info){
     };
     CLIMATE_RESULTS.innerHTML = climate_daily;
     CLIMATE_OPT.innerHTML = climate_opt;
-    climate_chart = new Chart(CLIMATE_CHART, {
-        type: 'line',
-        data: {
-            labels: data['dates'],
-            datasets: [{
-                label: 'Temperatura',
-                data: morning,
-                backgroundColor: BACKGROUNDCOLOR,
-                borderColor: BORDERCOLOR,
-                borderWith: 1.5
-            }],
-        }
-    })
+    graph_climate(data['dates'], day)
 };
 
 function graph_climate(dates, temps){
