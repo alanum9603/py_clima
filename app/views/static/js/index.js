@@ -44,16 +44,16 @@ function show_cities(data) {
     let climate_graph = ``;
     if (data.length != 0){
         for(let i = 0; i < Object.keys(data).length; i++) {
-        city_list += `
-        <div class="list-group-item">
-            <div class="d-flex">
-                <div class="p-2 flex-grow-1">` + data[i].name + `, ` + data[i].state + ` - ` + data[i].country + `</div>
-                <div class="p-2">
-                    <button class="btn btn-outline-warning" onclick="get_climate(lat=` + data[i].lat + `,lon=` + data[i].lon + `,info='` + data[i].name + `, ` + data[i].state + ` - ` + data[i].country + `')">>></button>
+            city_list += `
+            <div class="list-group-item">
+                <div class="d-flex">
+                    <div class="p-2 flex-grow-1">` + data[i].name + `, ` + data[i].state + ` - ` + data[i].country + `</div>
+                    <div class="p-2">
+                        <button class="btn btn-outline-warning" onclick="get_climate(lat=` + data[i].lat + `,lon=` + data[i].lon + `,info='` + data[i].name + `, ` + data[i].state + ` - ` + data[i].country + `')">>></button>
+                    </div>
                 </div>
             </div>
-        </div>
-            `
+                `
         };
     } else {
         city_list += '<label class="list-group-item">Sin resultados encontrados</label>'
@@ -91,8 +91,7 @@ function show_climate(data, info){
                 <button type="button" class="btn btn-success" onclick="graph_climate(['`+ dates + `'],[` + evening   + `])" >Tarde</button>
                 <button type="button" class="btn btn-dark" onclick="graph_climate(['`   + dates + `'],[` + night     + `])" >Noche</button>
             </div>
-            <canvas id="climate-chart"></canvas>
-            `;
+            `
     } else {
         climate_daily += '<label>No results found</label>';
     };
