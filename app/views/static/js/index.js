@@ -64,13 +64,9 @@ function show_cities(data) {
 function show_climate(data, info){
     let climate_daily = ``;
     let climate_opt = ``;
-    let dates = data['dates'].join(`','`)
-    let morning = data['morning'];
-    let day = data['day'];
-    let evening = data['evening'];
-    let night = data['night']; 
+    let dates = data['dates'].join(`','`);
+    let temps = data['temps']
     if (Object.keys(data).length != 0){
-        
         climate_daily += `
             <div class="row align-items-start">
                 <h1>` + data["temp"] + `°C </h1>
@@ -84,20 +80,19 @@ function show_climate(data, info){
                 </p>
             </div>
             `;
-        climate_opt += `
-            <div class="btn-group d-flex justify-content-center" role="group" aria-label="Basic example">
-                <button type="button" class="btn btn-info" onclick="graph_climate(['`   + dates + `'],[` + morning   + `])" >Mañana</button>
-                <button type="button" class="btn btn-primary" onclick="graph_climate(['`+ dates + `'],[` + day       + `])" >Día</button>
-                <button type="button" class="btn btn-success" onclick="graph_climate(['`+ dates + `'],[` + evening   + `])" >Tarde</button>
-                <button type="button" class="btn btn-dark" onclick="graph_climate(['`   + dates + `'],[` + night     + `])" >Noche</button>
-            </div>
-            `
+        climate_opt += `<div class="btn-group d-flex justify-content-center" role="group" aria-label="Basic example">`;
+        for(i in temps){
+            climate_opt += `
+                <button type="button" class="btn btn-` + temps[i][1] + `" onclick="graph_climate(['`   + dates + `'],[` + temps[i][2] + `])" >` + temps[i][0] + `</button>
+            `;
+        };
+        climate_opt += `</div>`;
     } else {
         climate_daily += '<label>No results found</label>';
     };
     CLIMATE_RESULTS.innerHTML = climate_daily;
     CLIMATE_OPT.innerHTML = climate_opt;
-    graph_climate(data['dates'], day)
+    graph_climate(data['dates'], temps[1][2])
 };
 
 function graph_climate(dates, temps){
