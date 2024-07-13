@@ -72,12 +72,12 @@ function show_climate(data, info){
                 <h1>` + data["temp"] + `°C </h1>
                 <p>
                     ` + info + `<br>
-                    Presión atmosférica: ` + data["pressure"] + `hPa <br>
-                    Humedad: `      + data["humidity"] + `%     <br>
-                    Nubosidad: `    + data["clouds"] + `%       <br>
-                    Índice UV: `    + data["uvi"] + `           <br>
-                    Visibilidad: `  + data["visibility"] + `km  <br>
-                </p>
+                    <b>Presión atm:</b> ` + data["pressure"] + `hPa <br>
+                    <b>Humedad:</b> `      + data["humidity"] + `%     <br>
+                    <b>Nubosidad:</b> `    + data["clouds"] + `%       <br>
+                    <b>Índice UV:</b> `    + data["uvi"] + `           <br>
+                    <b>Visibilidad:</b> `  + data["visibility"] + `km  <br>
+                </p> 
             </div>
             `;
         climate_opt += `<div class="btn-group d-flex justify-content-center" role="group" aria-label="Basic example">`;
